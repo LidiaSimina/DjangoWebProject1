@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - ЦветОпт</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/site.css' %}" />
+    <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
+<style>
+
+    .carousel-caption p {
+        color: black;
+        font-size: 20px;
+    }
+        .logo {
+        width: 50px; /* ширина */
+        height: auto; /* автоматический расчет высоты для сохранения пропорций */
+    }
+        /* Стили для кнопки отправки формы */
+        #submit-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        #submit-button:hover {
+            background-color: #0056b3;
+        }
+        /* Стили для полей ввода */
+        input[type="text"], input[type="email"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            transition: background-color 0.3s;
+        }
+        input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
+            background-color: lightblue;
+        }
+     /* Стили для меню сайта */
+.navbar-inverse {
+    background-color: #333333; /* темно-секрый цвет фона навигационной панели */
+    border-color: #333333;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #ff0000; /* Красный цвет текста меню */
+}
+
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus {
+    color: #00ff21; /* Зеленый цвет текста при наведении */
+    background-color: orangered; /* Оранжевый цвет фона при наведении */
+    border-radius: 20%; /* Скругление краев при наведении */
+}
+
+/* Стили для заголовков */
+h1, h2, h3 {
+    color: #333333; /* Темно-серый цвет заголовков */
+}
+
+/* Стили для текста */
+p {
+    font-size: 16px; /* Размер шрифта текста */
+}
+
+/* Стили для таблиц */
+table {
+    width: 100%; /* Ширина таблицы */
+    border-collapse: collapse; /* Сворачивание границ ячеек таблицы */
+}
+
+td, th {
+    border: 1px solid #dddddd; /* Серый цвет границ ячеек таблицы */
+    padding: 8px; /* Отступы внутри ячеек таблицы */
+}
+
+/* Стили для гиперссылок */
+a {
+    text-decoration: none; /* Убираем подчеркивание гиперссылок */
+    color: #007bff; /* Синий цвет гиперссылок */
+}
+
+a:hover {
+    text-decoration: underline; /* Подчеркивание гиперссылок при наведении */
+}
+
+/* Стили для изображений */
+img {
+    max-width: 100%; /* Максимальная ширина изображений */
+    height: auto; /* Автоматический расчет высоты для сохранения пропорций */
+}
+    </style>
+    </head>
+
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" class="navbar-brand"> <img src="{% static 'app/content/logo.jpg' %}" alt="logo" class="logo"> </a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'home' %}">Главная</a></li>
+                    <li><a href="{% url 'about' %}">О нас</a></li>
+                    <li><a href="{% url 'contact' %}">Контакты</a></li>
+                    <li><a href="{% url 'links' %}">Полезные ресурсы</a></li>
+                    <li><a href="{% url 'feedback' %}">Обратная связь</a></li>
+                    <li><a href="{% url 'blog' %}">Блог</a></li>
+                    {% if user.is_superuser %}
+                    <li><a href="{% url 'newpost' %}">Добавить статью</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'videopost' %}">Видео</a></li>
+                    {% if not user.is_authenticated %}
+                    <li><a href="{% url 'registration' %}">Регистрация</a></li>
+                    {% endif %}
+                </ul>
+                {% include 'app/loginpartial.html' %}
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content">
+{% block content %}{% endblock %}
+        <hr/>
+        <footer>
+            <p>&copy; {{ year }} - ЦветОпт</p>
+        </footer>
+    </div>
+
+    <script src="{% static 'app/scripts/jquery-1.10.2.js' %}"></script>
+    <script src="{% static 'app/scripts/bootstrap.js' %}"></script>
+    <script src="{% static 'app/scripts/respond.js' %}"></script>
+{% block scripts %}{% endblock %}
+ <!-- Добавляем скрипты для изменения цвета надписи на кнопке отправки и фона полей ввода -->
+    <script>
+        // JavaScript код для изменения цвета надписи на кнопке отправки формы при наведении на нее курсора мыши
+        document.getElementById("submit-button").addEventListener("mouseover", function() {
+            this.style.color = "red";
+        });
+        // JavaScript код для восстановления исходного цвета надписи на кнопке отправки формы
+        document.getElementById("submit-button").addEventListener("mouseout", function() {
+            this.style.color = "white";
+        });
+        // JavaScript код для изменения цвета фона поля ввода при его выборе для ввода
+        document.querySelectorAll('input[type="text"], input[type="email"], textarea').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.style.backgroundColor = 'lightblue';
+            });
+            input.addEventListener('blur', function() {
+                this.style.backgroundColor = '';
+            });
+        });
+    </script>
+</body>
+</html>
